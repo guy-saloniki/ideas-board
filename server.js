@@ -1,6 +1,7 @@
 const path = require('path');
 const express = require('express');
 const app = express();
+const cors = require('cors');
 require('dotenv').config();
 const ideasRouter = require('./routes/ideas');
 const port = process.env.PORT || 5000;
@@ -15,6 +16,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Body parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// Cors middleware
+app.use(
+  cors({
+    origin: ['http://localhost:3000', 'http://localhost:5000'],
+    credentials: true,
+  })
+);
 
 app.get('/', (req, res) => {
   res.json({ message: 'Welcome to the ideas board app!' });
